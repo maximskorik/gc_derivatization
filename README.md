@@ -1,6 +1,6 @@
 # In silico derivatization
 
-The main functionality is provided as a python package, see (README-package.md)[README-package.md]
+The main functionality is provided as a python package, see [README-package.md](README-package.md)
 
 The example Jupyter notebook reads a list of SMILES (text file, one molecule per line), and performs the derivatisation, also inspecting its results.
 

@@ -1,5 +1,3 @@
-import statistics
-from timeit import timeit
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from copy import deepcopy
@@ -8,7 +6,6 @@ from gc_meox_src import is_derivatized, remove_derivatization_groups, add_deriva
 import multiprocessing
 import random
 import py3Dmol
-import timeit
 
 random.seed(42)
 cpus = multiprocessing.cpu_count()

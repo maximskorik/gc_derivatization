@@ -1,16 +1,21 @@
 from rdkit import Chem
 from rdkit.Chem import AllChem
-from copy import deepcopy
 from concurrent.futures import ProcessPoolExecutor
 from gc_meox_src import is_derivatized, remove_derivatization_groups, add_derivatization_groups
 import multiprocessing
 import random
 import py3Dmol
+import time
 
 random.seed(42)
 cpus = multiprocessing.cpu_count()
 print('# cpus (including HT, typically): ', cpus)
 cpus //= 2
+
+#st = time.process_time()
+#et = time.process_time()
+#res = et - st
+#print('CPU Execution time:', res, 'seconds')
 
 # 3D rendering
 def draw3d(m,dimensions=(500,300),p=None):
@@ -35,7 +40,7 @@ for s in ['CCC(=NOC)C', 'CCC=NOC', 'C=NOC', 'CSi(C)(C)C']:
     print(s,is_derivatized(smiles='CCC(=NOC)C'))
 
 # remove_derivatization 
-remove_derivatization_groups(smiles='CCC(=N)C')
+remove_derivatization_groups(smiles='CCC(=NOC)C')
 
 m=Chem.MolFromSmiles('CCC=NOC')
 remove_derivatization_groups(m)
@@ -49,13 +54,12 @@ add_derivatization_groups(m)
 
 
 # reading input file
-smi_file='NIST_195_200.txt'
+smi_file = 'NIST_195_200.txt'
 with open(smi_file) as f:
     mols = list(filter(lambda p: p[1], [ (smi.rstrip(), Chem.MolFromSmiles(smi)) for smi in f ]))
 
 
 #Essential statistics
-
 SiMe1=Chem.MolFromSmarts('[Si][CH3]')
 SiMe2=Chem.MolFromSmarts('[Si]([CH3])[CH3]')
 SiMe3=Chem.MolFromSmarts('[Si]([CH3])([CH3])[CH3]')
@@ -71,15 +75,13 @@ print("# with SiMe3:", len(with_sime3))
 with_onssi = list(filter(lambda m: m[1].HasSubstructMatch(ONSSi),mols))
 print("# with ONSSi:", len(with_onssi))
 
-MeOX=Chem.MolFromSmarts('C=NO[CH3]')
+MeOX=Chem.MolFromSmarts('CN(C)C(=O)O[Si](C)(C)C')
 with_meox = list(filter(lambda m: m[1].HasSubstructMatch(MeOX),mols))
 print("# with MeOX:", len(with_meox))
 
 
-
-
 # Atcual applcation of the code
-%%time
+
 def process_one_mol(mol):
     return (
         mol[0],

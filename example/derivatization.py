@@ -78,16 +78,17 @@ def statistics(filename):
         "ONSSi" : Chem.MolFromSmarts('[O,N,S][Si]([CH3])([CH3])[CH3]'),
         "MeOX"  : Chem.MolFromSmiles('CC1CO1')
     }
-    print('# total',len(read_input_file(filename)))
+    
     with_sime1 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe1']),read_input_file(filename)))
-    print("# with SiMe1:", len(with_sime1))
     with_sime2 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe2']),read_input_file(filename)))
-    print("# with SiMe2:", len(with_sime2))
     with_sime3 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe3']),read_input_file(filename)))
-    print("# with SiMe3:", len(with_sime3))
     with_onssi = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['ONSSi']),read_input_file(filename)))
-    print("# with ONSSi:", len(with_onssi))
     with_meox = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['MeOX']),read_input_file(filename)))
+    print('# total',len(read_input_file(filename)))
+    print("# with SiMe1:", len(with_sime1))
+    print("# with SiMe2:", len(with_sime2))
+    print("# with SiMe3:", len(with_sime3))
+    print("# with ONSSi:", len(with_onssi))
     print("# with MeOX:", len(with_meox))
 
 

@@ -52,7 +52,7 @@ def read_input_file(filename):
         return mols
 
 
-# Atcual applcation of the code
+# Actual applcation of the code
 def process_one_mol(mol):
     return (
         mol[0],

@@ -69,7 +69,7 @@ def write_derivs_flat(filename):
                 flat.write(one + "\n")
 
 
-# ESSENTIAL STATISTICS 
+# Essential statistics 
 def statistics(filename):
     dict_deriv = {
         "SiMe1" : Chem.MolFromSmarts('[Si][CH3]'),
@@ -89,7 +89,6 @@ def statistics(filename):
     print("# with ONSSi:", len(with_onssi))
     with_meox = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['MeOX']),read_input_file(filename)))
     print("# with MeOX:", len(with_meox))
-
 
 
 

@@ -15,7 +15,7 @@ def num_cpu():
     cpus //= 2
 
 
-# 3D rendering
+# Utility 3D rendering
 def draw3d(m,dimensions=(500,300),p=None):
     AllChem.EmbedMultipleConfs(m, clearConfs=True, numConfs=50)
     opt = AllChem.MMFFOptimizeMoleculeConfs(m)
@@ -69,11 +69,35 @@ def write_derivs_flat(filename):
                 flat.write(one + "\n")
 
 
+# ESSENTIAL STATISTICS 
+def statistics(filename):
+    dict_deriv = {
+        "SiMe1" : Chem.MolFromSmarts('[Si][CH3]'),
+        "SiMe2" : Chem.MolFromSmarts('[Si]([CH3])[CH3]'),
+        "SiMe3" : Chem.MolFromSmarts('[Si]([CH3])([CH3])[CH3]'),
+        "ONSSi" : Chem.MolFromSmarts('[O,N,S][Si]([CH3])([CH3])[CH3]'),
+        "MeOX"  : Chem.MolFromSmiles('CC1CO1')
+    }
+    print('# total',len(read_input_file(filename)))
+    with_sime1 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe1']),read_input_file(filename)))
+    print("# with SiMe1:", len(with_sime1))
+    with_sime2 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe2']),read_input_file(filename)))
+    print("# with SiMe2:", len(with_sime2))
+    with_sime3 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe3']),read_input_file(filename)))
+    print("# with SiMe3:", len(with_sime3))
+    with_onssi = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['ONSSi']),read_input_file(filename)))
+    print("# with ONSSi:", len(with_onssi))
+    with_meox = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['MeOX']),read_input_file(filename)))
+    print("# with MeOX:", len(with_meox))
+
+
+
 listarg = argparse.ArgumentParser()
 listarg.add_argument('--filename', type=str)
 args = listarg.parse_args()
 filename = args.filename
 
 if __name__ == "__main__":
+    statistics(filename)
     write_derivs_struct(filename) 
     write_derivs_flat(filename)

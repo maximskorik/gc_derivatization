@@ -1,11 +1,19 @@
 import argparse
+import random
+import py3Dmol
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from concurrent.futures import ProcessPoolExecutor
 from gc_meox_src import is_derivatized, remove_derivatization_groups, add_derivatization_groups
 import multiprocessing
-import random
-import py3Dmol
+
+dict_deriv = {
+    "SiMe1" : Chem.MolFromSmarts('[Si][CH3]'),
+    "SiMe2" : Chem.MolFromSmarts('[Si]([CH3])[CH3]'),
+    "SiMe3" : Chem.MolFromSmarts('[Si]([CH3])([CH3])[CH3]'),
+    "ONSSi" : Chem.MolFromSmarts('[O,N,S][Si]([CH3])([CH3])[CH3]'),
+    "MeOX"  : Chem.MolFromSmiles('CC1CO1')
+}
 
 # define number of cpus to run 
 def num_cpu():
@@ -15,8 +23,8 @@ def num_cpu():
     cpus //= 2
 
 
-# Utility 3D rendering
-def draw3d(m,dimensions=(500,300),p=None):
+# Utility 3D rendering and plot
+def set_draw3d(m,dimensions=(500,300),p=None):
     AllChem.EmbedMultipleConfs(m, clearConfs=True, numConfs=50)
     opt = AllChem.MMFFOptimizeMoleculeConfs(m)
     conf = min(range(len(opt)),key = lambda x: opt[x][1] if opt[x][0] == 0 else float("inf") )
@@ -30,6 +38,11 @@ def draw3d(m,dimensions=(500,300),p=None):
     p.zoomTo()
     return p.show()
 
+# works interactively in notebook only   
+def plot_3d(key):
+    x = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv[key]),
+    read_input_file(filename)))
+    set_draw3d(x[0][1])
 
 # reading input file
 def read_input_file(filename):
@@ -54,7 +67,7 @@ def process_pool_exe(filename):
         return out
     
 
-#Writing outputs
+# Writing outputs
 def write_derivs_struct(filename):
     with open('derivs_struct.tsv','w') as tsv:
         tsv.write("orig\tderiv. removed\tderiv. added ...\n")
@@ -71,26 +84,21 @@ def write_derivs_flat(filename):
 
 # Essential statistics 
 def statistics(filename):
-    dict_deriv = {
-        "SiMe1" : Chem.MolFromSmarts('[Si][CH3]'),
-        "SiMe2" : Chem.MolFromSmarts('[Si]([CH3])[CH3]'),
-        "SiMe3" : Chem.MolFromSmarts('[Si]([CH3])([CH3])[CH3]'),
-        "ONSSi" : Chem.MolFromSmarts('[O,N,S][Si]([CH3])([CH3])[CH3]'),
-        "MeOX"  : Chem.MolFromSmiles('CC1CO1')
-    }
-    
-    with_sime1 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe1']),read_input_file(filename)))
-    with_sime2 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe2']),read_input_file(filename)))
-    with_sime3 = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['SiMe3']),read_input_file(filename)))
-    with_onssi = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['ONSSi']),read_input_file(filename)))
-    with_meox = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv['MeOX']),read_input_file(filename)))
-    print('# total',len(read_input_file(filename)))
-    print("# with SiMe1:", len(with_sime1))
-    print("# with SiMe2:", len(with_sime2))
-    print("# with SiMe3:", len(with_sime3))
-    print("# with ONSSi:", len(with_onssi))
-    print("# with MeOX:", len(with_meox))
+    print('# Total',':',len(read_input_file(filename)))
+    for key in dict_deriv:
+        x = list(filter(lambda m: m[1].HasSubstructMatch(dict_deriv[key]),
+        read_input_file(filename)))
+        print('# With',key,':',len(x))
 
+
+# Check on manual inputs
+def manual_check():
+    for s in 'CCC(=NOC)C', 'CCC=NOC', 'C=NOC', 'CSi(C)(C)C':
+        print(s,is_derivatized(smiles='CCC(=NOC)C'))
+        m = remove_derivatization_groups(smiles='CCC(=N)C')
+        n = remove_derivatization_groups(smiles='C[Si](C)(C)OCCCO[Si](C)(C)C')
+        p = remove_derivatization_groups(smiles='CON=CC(O)C=NOC')
+        s = add_derivatization_groups(n)
 
 
 listarg = argparse.ArgumentParser()
@@ -102,3 +110,5 @@ if __name__ == "__main__":
     statistics(filename)
     write_derivs_struct(filename) 
     write_derivs_flat(filename)
+    plot_3d('SiMe3')
+    manual_check()

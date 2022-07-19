@@ -1,0 +1,5 @@
+orig	deriv. removed	deriv. added ...
+CC(=O)N([Si](C)(C)C)[Si](C)(C)C	CC(N)=O	CC(=O)N([Si](C)(C)C)[Si](C)(C)C
+CCC(=NOC)C	CCC(C)=O	CCC(C)=NOC
+CCC=NOC	CCC=O	CCC=NOC
+C=NOC	C=NOC	C=NOC

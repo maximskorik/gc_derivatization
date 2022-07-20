@@ -1,0 +1,4 @@
+CC(=O)N([Si](C)(C)C)[Si](C)(C)C
+CCC(=NOC)C
+CCC=NOC
+C=NOC

@@ -15,7 +15,8 @@ def test_dir(request):
 
 @pytest.fixture
 def data():
-    molecules = [(smiles, MolFromSmiles(smiles)) for smiles in ["CCC(=NOC)C", "CCC=NOC", "C=NOC"]]
+    molecules = [(smiles, MolFromSmiles(smiles)) for smiles in [
+        "CCC(=NOC)C", "CCC=NOC", "C=NOC", "CC(=O)N([Si](C)(C)C)[Si](C)(C)C"]]
     num_molecules = list(zip(molecules, [1] * len(molecules)))
 
     with ProcessPoolExecutor(max_workers=2) as executor:
@@ -48,9 +49,32 @@ def test_writing_flat_output(data, tmp_path):
     assert flat_path.exists()
 
 
+def test_writing_flat_content(data, tmp_path):
+    """Test writing flat output content."""
+    flat_path = tmp_path / "flat.txt"
+    write_flat(flat_path, data, True)
+
+    with open(flat_path, "r") as f:
+        lines = f.readlines()
+
+    assert len(lines) == 8
+
+
 def test_writing_tsv_output(data, tmp_path):
     """Test writing tsv output."""
     tsv_path = tmp_path / "tsv.txt"
     write_tab_separated(tsv_path, data)
 
     assert tsv_path.exists()
+
+
+def test_writing_tsv_content(data, tmp_path):
+    """Test writing tsv output content."""
+    tsv_path = tmp_path / "tsv.txt"
+    write_tab_separated(tsv_path, data)
+
+    with open(tsv_path, "r") as f:
+        lines = f.readlines()
+
+    assert len(lines) == 5
+    assert lines[0] == "orig\tderiv. removed\tderiv. added ...\n"

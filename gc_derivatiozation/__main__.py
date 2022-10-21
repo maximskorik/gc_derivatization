@@ -5,6 +5,7 @@ import sys
 from gc_meox_src import remove_derivatization_groups, add_derivatization_groups
 from concurrent.futures import ProcessPoolExecutor
 from rdkit import Chem
+from utils import read_input_txt
 
 
 def process_one_mol(n_mol):
@@ -35,9 +36,8 @@ def parse_args(argv):
 def main(argv):
     args = parse_args(argv)
 
-    insmi = list(filter(lambda p: p[1],
-                        [(line.rstrip(), Chem.MolFromSmiles(line)) for line in fileinput.input(files=args.infiles)]))
-    n_mols = list(zip(insmi, [args.repeat] * len(insmi)))
+    input_molecules = read_input_txt(args.infiles)
+    n_mols = list(zip(input_molecules, [args.repeat] * len(input_molecules)))
 
     with ProcessPoolExecutor(max_workers=args.ncpu) as executor:
         out = executor.map(process_one_mol, n_mols)

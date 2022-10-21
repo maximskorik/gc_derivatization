@@ -30,16 +30,20 @@ def parse_args(argv):
 
     return parser.parse_args(argv)
 
-    insmi = list(filter(lambda p: p[1],
-                        [(line.rstrip(), Chem.MolFromSmiles(line)) for line in fileinput.input(files=opt.infiles)]))
-    n_mols = list(zip(insmi, [opt.repeat] * len(insmi)))
 
-    with ProcessPoolExecutor(max_workers=opt.ncpu) as executor:
+def main(argv):
+    args = parse_args(argv)
+
+    insmi = list(filter(lambda p: p[1],
+                        [(line.rstrip(), Chem.MolFromSmiles(line)) for line in fileinput.input(files=args.infiles)]))
+    n_mols = list(zip(insmi, [args.repeat] * len(insmi)))
+
+    with ProcessPoolExecutor(max_workers=args.ncpu) as executor:
         out = executor.map(process_one_mol, n_mols)
 
-    if opt.flat:
-        with open(opt.flat, "w") as flat:
-            if opt.keep:
+    if args.flat:
+        with open(args.flat, "w") as flat:
+            if args.keep:
                 for orig, removed, added in out:
                     for one in {orig, removed, *added}:
                         flat.write(one + "\n")
@@ -47,12 +51,12 @@ def parse_args(argv):
                 for orig, removed, added in out:
                     flat.write("\n".join(added) + "\n")
 
-    if opt.tsv:
-        with open(opt.tsv, "w") as tsv:
+    if args.tsv:
+        with open(args.tsv, "w") as tsv:
             tsv.write("orig\tderiv. removed\tderiv. added ...\n")
             for orig, removed, added in out:
                 tsv.write("\t".join([orig, removed, *added]) + "\n")
 
 
 if __name__ == '__main__':
-    doit()
+    main()

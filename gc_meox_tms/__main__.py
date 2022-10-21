@@ -1,19 +1,8 @@
 import argparse
 import sys
 
-from gc_meox_src import remove_derivatization_groups, add_derivatization_groups
 from concurrent.futures import ProcessPoolExecutor
-from rdkit import Chem
-from utils import read_input_txt, write_flat, write_tab_separated
-
-
-def process_one_mol(n_mol):
-    mol, n = n_mol
-    return (
-        mol[0],
-        Chem.MolToSmiles(remove_derivatization_groups(mol[1])),
-        {Chem.MolToSmiles(add_derivatization_groups(mol[1])) for _ in range(n)}
-    )
+from utils import process_one_mol, read_input_txt, write_flat, write_tab_separated
 
 
 def parse_args(argv):

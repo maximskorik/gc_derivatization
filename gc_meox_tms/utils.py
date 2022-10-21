@@ -1,12 +1,22 @@
 import fileinput
 
+from gc_meox_src import add_derivatization_groups, remove_derivatization_groups
 from os import PathLike
-from rdkit.Chem import Mol, MolFromSmiles
+from rdkit.Chem import Mol, MolFromSmiles, MolToSmiles
 
 
-def read_input_txt(infiles: PathLike) -> list[Mol]:
+def process_one_mol(n_mol):
+    mol, n = n_mol
+    return (
+        mol[0],
+        MolToSmiles(remove_derivatization_groups(mol[1])),
+        {MolToSmiles(add_derivatization_groups(mol[1])) for _ in range(n)}
+    )
+
+
+def read_input_txt(infiles: PathLike) -> list[tuple[str, Mol]]:
     """Read input from txt files with SMILES."""
-    return [MolFromSmiles(line.rstrip()) for line in fileinput.input(files=infiles)]
+    return [(line.rstrip(), MolFromSmiles(line)) for line in fileinput.input(files=infiles)]
 
 
 def write_tab_separated(tsv_path: PathLike, data) -> None:

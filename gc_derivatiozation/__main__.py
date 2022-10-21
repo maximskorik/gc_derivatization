@@ -1,11 +1,10 @@
 import argparse
-import fileinput
 import sys
 
 from gc_meox_src import remove_derivatization_groups, add_derivatization_groups
 from concurrent.futures import ProcessPoolExecutor
 from rdkit import Chem
-from utils import read_input_txt
+from utils import read_input_txt, write_flat, write_tab_separated
 
 
 def process_one_mol(n_mol):
@@ -40,23 +39,13 @@ def main(argv):
     n_mols = list(zip(input_molecules, [args.repeat] * len(input_molecules)))
 
     with ProcessPoolExecutor(max_workers=args.ncpu) as executor:
-        out = executor.map(process_one_mol, n_mols)
+        data = executor.map(process_one_mol, n_mols)
 
     if args.flat:
-        with open(args.flat, "w") as flat:
-            if args.keep:
-                for orig, removed, added in out:
-                    for one in {orig, removed, *added}:
-                        flat.write(one + "\n")
-            else:
-                for orig, removed, added in out:
-                    flat.write("\n".join(added) + "\n")
+        write_flat(args.flat, data, args.keep)
 
     if args.tsv:
-        with open(args.tsv, "w") as tsv:
-            tsv.write("orig\tderiv. removed\tderiv. added ...\n")
-            for orig, removed, added in out:
-                tsv.write("\t".join([orig, removed, *added]) + "\n")
+        write_tab_separated(args.tsv, data)
 
 
 if __name__ == '__main__':

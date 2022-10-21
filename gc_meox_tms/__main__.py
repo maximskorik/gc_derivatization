@@ -5,7 +5,7 @@ from concurrent.futures import ProcessPoolExecutor
 from utils import process_one_mol, read_input_txt, write_flat, write_tab_separated
 
 
-def parse_args(argv):
+def parse_arguments(argv):
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-n', '--ncpu', type=int, action='store', help='# of cores to use', default=1)
@@ -22,7 +22,7 @@ def parse_args(argv):
 
 
 def main(argv):
-    args = parse_args(argv)
+    args = parse_arguments(argv)
 
     input_molecules = read_input_txt(args.infiles)
     n_mols = list(zip(input_molecules, [args.repeat] * len(input_molecules)))

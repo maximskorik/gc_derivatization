@@ -81,15 +81,15 @@ def test_writing_tsv_content(data, tmp_path):
 
 
 @pytest.mark.parametrize("smiles, expected", [
-    ("CC(N)=O", {"CC(=O)N([Si](C)(C)C)[Si](C)(C)C", "CC(=O)N[Si](C)(C)C", "CC(N)=O"}),
-    ("OC1=CC=C(O)C=C1", {"C[Si](C)(C)OC1=CC=C(O[Si](C)(C)C)C=C1", "C[Si](C)(C)OC1=CC=C(O)C=C1", "OC1=CC=C(O)C=C1"}),
-    ("CCC(C)=O", {"CCC(C)=NOC"}),
-    ("CC=O", {"CC=NOC"})
+    ("CC(N)=O", {"CC(N)=O", "CC(=O)N([Si](C)(C)C)[Si](C)(C)C", "CC(=O)N[Si](C)(C)C"}),
+    ("OC1=CC=C(O)C=C1", {"OC1=CC=C(O)C=C1", "C[Si](C)(C)OC1=CC=C(O[Si](C)(C)C)C=C1", "C[Si](C)(C)OC1=CC=C(O)C=C1"}),
+    ("CCC(C)=O", {"CCC(C)=O", "CCC(C)=NOC"}),
+    ("CC=O", {"CC=O", "CC=NOC"})
 ])
 def test_process_one_mol_nonderivatized(smiles, expected):
     """Test processing one derivatized molecule."""
     mol = (smiles, MolFromSmiles(smiles))
-    n = 10
+    n = 40
     actual = process_one_mol((mol, n))
     actual = {actual[0], actual[1], *actual[2]}
 

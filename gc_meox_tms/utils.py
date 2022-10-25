@@ -9,8 +9,8 @@ def process_one_mol(n_mol):
     mol, n = n_mol
     return (
         mol[0],
-        MolToSmiles(remove_derivatization_groups(mol[1])),
-        {MolToSmiles(add_derivatization_groups(mol[1])) for _ in range(n)}
+        MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),
+        {MolToSmiles(add_derivatization_groups(mol[1]), kekuleSmiles=True) for _ in range(n)}
     )
 
 

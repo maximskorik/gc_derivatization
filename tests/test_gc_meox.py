@@ -27,8 +27,7 @@ FLAKY_RERUNS = 6
     ("C[N+]#[C-]", False)
 ])
 def is_derivatized_data(request):
-    smiles = request.param[0]
-    _is_derivatized = request.param[1]
+    smiles, _is_derivatized = request.param
     return smiles, _is_derivatized
 
 

@@ -27,6 +27,7 @@ FLAKY_RERUNS = 6
     ("C[N+]#[C-]", False)
 ])
 def is_derivatized_data(request):
+    """Return a tuple of (smiles, boolean indicating if the molecule is MeOX or TMS derivatized)."""
     smiles, _is_derivatized = request.param
     return smiles, _is_derivatized
 
@@ -42,11 +43,14 @@ def is_derivatized_data(request):
     ("CC=NOC", None, "CC=O")
 ])
 def derivatization_groups_data(request):
+    """Return a tuple of (smiles of a derivatized molecule, smiles of this molecule with different degree of conversion,
+    smiles of the original non-derivatized molecule)."""
     derivatized, alternative, original = request.param
     return derivatized, alternative, original
 
 
 def test_is_derivatized_from_smiles(is_derivatized_data):
+    """Test if the is_derivatized function works with SMILES."""
     smiles, expected = is_derivatized_data
     actual = is_derivatized(smiles=smiles)
 
@@ -54,6 +58,7 @@ def test_is_derivatized_from_smiles(is_derivatized_data):
 
 
 def test_is_derivatized_from_mol(is_derivatized_data):
+    """Test if the is_derivatized function works with RDKit molecules."""
     smiles, expected = is_derivatized_data
     mol = Chem.MolFromSmiles(smiles)
     actual = is_derivatized(mol=mol)
@@ -62,6 +67,7 @@ def test_is_derivatized_from_mol(is_derivatized_data):
 
 
 def test_remove_derivatization_groups_from_smiles(derivatization_groups_data):
+    """Test if the remove_derivatization_groups function works with SMILES."""
     smiles, _, expected = derivatization_groups_data
     actual = remove_derivatization_groups(smiles=smiles)
     actual_smiles = Chem.MolToSmiles(actual, kekuleSmiles=True)
@@ -70,6 +76,7 @@ def test_remove_derivatization_groups_from_smiles(derivatization_groups_data):
 
 
 def test_remove_derivatization_groups_from_mol(derivatization_groups_data):
+    """Test if the remove_derivatization_groups function works with RDKit molecules."""
     smiles, _, expected = derivatization_groups_data
     mol = Chem.MolFromSmiles(smiles)
     actual = remove_derivatization_groups(mol=mol)
@@ -80,6 +87,8 @@ def test_remove_derivatization_groups_from_mol(derivatization_groups_data):
 
 @pytest.mark.flaky(reruns=FLAKY_RERUNS)
 def test_add_derivatization_groups_from_smiles(derivatization_groups_data):
+    """Test if the add_derivatization_groups function works with SMILES. The test will run FLAKY_RERUNS times or until
+    success due to non-deterministic nature of add_derivatization_groups."""
     expected, alternative, original = derivatization_groups_data
     derivatized = add_derivatization_groups(smiles=original)
     derivatized_smiles = Chem.MolToSmiles(derivatized, kekuleSmiles=True)
@@ -89,6 +98,8 @@ def test_add_derivatization_groups_from_smiles(derivatization_groups_data):
 
 @pytest.mark.flaky(reruns=FLAKY_RERUNS)
 def test_add_derivatization_groups_from_mol(derivatization_groups_data):
+    """Test if the add_derivatization_groups function works with RDKit molecules. The test will run FLAKY_RERUNS times
+    or until success due to non-deterministic nature of add_derivatization_groups."""
     expected, alternative, original = derivatization_groups_data
     mol = Chem.MolFromSmiles(original)
     derivatized = add_derivatization_groups(mol=mol)

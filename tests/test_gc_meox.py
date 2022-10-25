@@ -4,6 +4,9 @@ from gc_meox_src import add_derivatization_groups, is_derivatized, remove_deriva
 from rdkit import Chem
 
 
+FLAKY_RERUNS = 6
+
+
 @pytest.fixture(params=[
     ("CC(=O)N([Si](C)(C)C)[Si](C)(C)C", True),
     ("C[Si](C)(C)OC1=CC=CC=C1", True),
@@ -30,19 +33,18 @@ def is_derivatized_data(request):
 
 
 @pytest.fixture(params=[
-    ("CC(=O)N([Si](C)(C)C)[Si](C)(C)C", "CC(N)=O"),  # group adding may not work
-    ("C[Si](C)(C)OC1=CC=CC=C1", "OC1=CC=CC=C1"),
-    ("C[Si](C)(C)OC1=CC=C(O[Si](C)(C)C)C=C1", "OC1=CC=C(O)C=C1"),  # non-deterministic group adding (1 or 2 TMS groups)
-    ("CCO[Si](C)(C)C", "CCO"),
-    ("CC(=O)O[Si](C)(C)C", "CC(=O)O"),  # group adding may not work
-    ("CCCS[Si](C)(C)C", "CCCS"),  # group adding may not work
-    ("CCC(C)=NOC", "CCC(C)=O"),  # group adding may not work
-    ("CC=NOC", "CC=O")  # non-deterministic group adding
+    ("CC(=O)N([Si](C)(C)C)[Si](C)(C)C", "CC(=O)N[Si](C)(C)C", "CC(N)=O"),
+    ("C[Si](C)(C)OC1=CC=CC=C1", None, "OC1=CC=CC=C1"),
+    ("C[Si](C)(C)OC1=CC=C(O[Si](C)(C)C)C=C1", "C[Si](C)(C)OC1=CC=C(O)C=C1", "OC1=CC=C(O)C=C1"),
+    ("CCO[Si](C)(C)C", None, "CCO"),
+    ("CC(=O)O[Si](C)(C)C", None, "CC(=O)O"),
+    ("CCCS[Si](C)(C)C", None, "CCCS"),
+    ("CCC(C)=NOC", None, "CCC(C)=O"),
+    ("CC=NOC", None, "CC=O")
 ])
 def derivatization_groups_data(request):
-    derivatized = request.param[0]
-    original = request.param[1]
-    return derivatized, original
+    derivatized, alternative, original = request.param
+    return derivatized, alternative, original
 
 
 def test_is_derivatized_from_smiles(is_derivatized_data):
@@ -61,7 +63,7 @@ def test_is_derivatized_from_mol(is_derivatized_data):
 
 
 def test_remove_derivatization_groups_from_smiles(derivatization_groups_data):
-    smiles, expected = derivatization_groups_data
+    smiles, _, expected = derivatization_groups_data
     actual = remove_derivatization_groups(smiles=smiles)
     actual_smiles = Chem.MolToSmiles(actual, kekuleSmiles=True)
 
@@ -69,7 +71,7 @@ def test_remove_derivatization_groups_from_smiles(derivatization_groups_data):
 
 
 def test_remove_derivatization_groups_from_mol(derivatization_groups_data):
-    smiles, expected = derivatization_groups_data
+    smiles, _, expected = derivatization_groups_data
     mol = Chem.MolFromSmiles(smiles)
     actual = remove_derivatization_groups(mol=mol)
     actual_smiles = Chem.MolToSmiles(actual, kekuleSmiles=True)
@@ -77,18 +79,20 @@ def test_remove_derivatization_groups_from_mol(derivatization_groups_data):
     assert actual_smiles == expected
 
 
+@pytest.mark.flaky(reruns=FLAKY_RERUNS)
 def test_add_derivatization_groups_from_smiles(derivatization_groups_data):
-    expected, original = derivatization_groups_data
+    expected, alternative, original = derivatization_groups_data
     derivatized = add_derivatization_groups(smiles=original)
     derivatized_smiles = Chem.MolToSmiles(derivatized, kekuleSmiles=True)
 
-    assert derivatized_smiles == expected
+    assert derivatized_smiles in [expected, alternative]
 
 
+@pytest.mark.flaky(reruns=FLAKY_RERUNS)
 def test_add_derivatization_groups_from_mol(derivatization_groups_data):
-    expected, original = derivatization_groups_data
+    expected, alternative, original = derivatization_groups_data
     mol = Chem.MolFromSmiles(original)
     derivatized = add_derivatization_groups(mol=mol)
     derivatized_smiles = Chem.MolToSmiles(derivatized, kekuleSmiles=True)
 
-    assert derivatized_smiles == expected
+    assert derivatized_smiles in [expected, alternative]

@@ -67,11 +67,6 @@ _repls = [
     ('[#104]=O', 'C=NO[CH3]'),
 ]
 
-# repls = list(zip(
-#    map(lambda n: Chem.MolFromSmarts(f'[#{n}]'),_repls),
-#    map(Chem.MolFromSmiles,_repls.values())
-# ))
-
 subs = [(Chem.MolFromSmarts(pat), repls, probs) for pat, repls, probs in _subs]
 repls = [(Chem.MolFromSmarts(pat), Chem.MolFromSmiles(repl)) for pat, repl in _repls]
 
@@ -84,7 +79,6 @@ def add_derivatization_groups(mol=None, smiles=None):
 
     for pat, reps, probs in subs:
         matches = em.GetSubstructMatches(pat)
-        #        print(matches)
         for m in matches:
             r = random.random()
             for repl, prob in zip(reps, probs):
@@ -93,7 +87,6 @@ def add_derivatization_groups(mol=None, smiles=None):
                     break
 
     for pat, repl in repls:
-        #       print(Chem.MolToSmiles(pat),Chem.MolToSmiles(repl),Chem.MolToSmiles(em))
         em, = AllChem.ReplaceSubstructs(em, pat, repl, replaceAll=True)
 
     Chem.SanitizeMol(em)

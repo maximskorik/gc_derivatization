@@ -1,6 +1,7 @@
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from copy import deepcopy
+from typing import Optional
 import random
 
 tms = '[Si]([CH3])([CH3])[CH3]'
@@ -15,15 +16,16 @@ meox_match0 = Chem.MolFromSmarts('[#0]=NO[CH3]')
 co = Chem.MolFromSmiles('C=O')
 
 
-def is_derivatized(mol=None, smiles=None):
+def is_derivatized(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> bool:
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
     mol = Chem.AddHs(mol)
-    return mol.HasSubstructMatch(tms_match) or mol.HasSubstructMatch(meox_match_co) or mol.HasSubstructMatch(
-        meox_match_cho)
+    return (mol.HasSubstructMatch(tms_match) or
+            mol.HasSubstructMatch(meox_match_co) or
+            mol.HasSubstructMatch(meox_match_cho))
 
 
-def remove_derivatization_groups(mol=None, smiles=None):
+def remove_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
     if mol is None:
         em = Chem.MolFromSmiles(smiles)
     else:
@@ -42,7 +44,7 @@ def remove_derivatization_groups(mol=None, smiles=None):
     for ma in matches:
         em.GetAtomWithIdx(ma[0]).SetAtomicNum(0)
 
-    em, = AllChem.ReplaceSubstructs(em, meox_match0, co, replaceAll=True)
+    em = AllChem.ReplaceSubstructs(em, meox_match0, co, replaceAll=True)[0]
     Chem.SanitizeMol(em)
     return em
 
@@ -87,7 +89,7 @@ def add_derivatization_groups(mol=None, smiles=None):
                     break
 
     for pat, repl in repls:
-        em, = AllChem.ReplaceSubstructs(em, pat, repl, replaceAll=True)
+        em = AllChem.ReplaceSubstructs(em, pat, repl, replaceAll=True)[0]
 
     Chem.SanitizeMol(em)
     return em

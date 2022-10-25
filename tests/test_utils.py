@@ -60,6 +60,17 @@ def test_writing_flat_content(data, tmp_path):
     assert len(lines) == 8
 
 
+def test_writing_flat_content_without_keep(data, tmp_path):
+    """Test writing flat output content without keep."""
+    flat_path = tmp_path / "flat.txt"
+    write_flat(flat_path, data, False)
+
+    with open(flat_path, "r") as f:
+        lines = f.readlines()
+
+    assert len(lines) == 4
+
+
 def test_writing_tsv_output(data, tmp_path):
     """Test writing tsv output."""
     tsv_path = tmp_path / "tsv.txt"

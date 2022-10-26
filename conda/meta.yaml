@@ -1,0 +1,39 @@
+{% set name = "gc-meox-tms" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install .
+
+requirements:
+  host:
+    - python >=3.6
+    - pip
+  run:
+    - python >=3.6
+    - rdkit
+
+test:
+  imports:
+    - gc_meox_tms
+
+about:
+  home: https://github.com/RECETOX/gc_derivatization
+  license: MIT
+  summary: In-silico MeOX/TMS derivatization of chemicals
+  description: In-silico derivatization of compounds to be identified in gas chromatography
+  dev_url: https://github.com/RECETOX/gc_derivatization
+
+extra:
+    recipe-maintainers:
+      - RECETOX/conda
+      - hecht
+      - maximskorik

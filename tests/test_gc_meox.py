@@ -1,6 +1,6 @@
 import pytest
 
-from gc_meox_src import add_derivatization_groups, is_derivatized, remove_derivatization_groups
+from gc_meox_tms import add_derivatization_groups, is_derivatized, remove_derivatization_groups
 from rdkit import Chem
 
 

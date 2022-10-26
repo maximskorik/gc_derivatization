@@ -1,10 +1,10 @@
 import pytest
 
 from concurrent.futures import ProcessPoolExecutor
-from gc_meox_tms.utils import read_input_txt
 from pathlib import Path
 from rdkit.Chem import Mol, MolFromSmiles
-from utils import process_one_mol, write_flat, write_tab_separated
+from gc_meox_tms.utils import read_input_txt, write_flat, write_tab_separated
+from gc_meox_tms import process_one_mol
 
 
 @pytest.fixture(scope="module")

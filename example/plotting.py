@@ -1,6 +1,7 @@
 import py3Dmol
 
 from rdkit.Chem import AllChem, Mol, MolToMolBlock
+from rdkit.Chem.Draw.IPythonConsole import ShowMols
 from typing import Optional
 
 

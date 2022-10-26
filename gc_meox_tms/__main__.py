@@ -2,7 +2,8 @@ import argparse
 import sys
 
 from concurrent.futures import ProcessPoolExecutor
-from utils import process_one_mol, read_input_txt, write_flat, write_tab_separated
+from .gc_meox_tms import process_one_mol
+from .utils import read_input_txt, write_flat, write_tab_separated
 
 
 def parse_arguments(argv):

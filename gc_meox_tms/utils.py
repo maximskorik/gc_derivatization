@@ -1,17 +1,7 @@
 import fileinput
 
-from gc_meox_src import add_derivatization_groups, remove_derivatization_groups
 from os import PathLike
-from rdkit.Chem import Mol, MolFromSmiles, MolToSmiles
-
-
-def process_one_mol(n_mol):
-    mol, n = n_mol
-    return (
-        mol[0],
-        MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),
-        {MolToSmiles(add_derivatization_groups(mol[1]), kekuleSmiles=True) for _ in range(n)}
-    )
+from rdkit.Chem import Mol, MolFromSmiles
 
 
 def read_input_txt(infiles: PathLike) -> list[tuple[str, Mol]]:

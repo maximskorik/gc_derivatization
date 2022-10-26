@@ -93,3 +93,12 @@ def add_derivatization_groups(mol=None, smiles=None):
 
     Chem.SanitizeMol(em)
     return em
+
+
+def process_one_mol(n_mol):
+    mol, n = n_mol
+    return (
+        mol[0],
+        Chem.MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),
+        {Chem.MolToSmiles(add_derivatization_groups(mol[1]), kekuleSmiles=True) for _ in range(n)}
+    )

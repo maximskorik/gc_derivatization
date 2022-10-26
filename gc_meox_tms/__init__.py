@@ -1,1 +1,1 @@
-from .gc_meox_tms import add_derivatization_groups, is_derivatized, remove_derivatization_groups, process_one_mol
+from .derivatization import add_derivatization_groups, is_derivatized, remove_derivatization_groups, process_one_mol

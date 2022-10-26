@@ -4,7 +4,7 @@ import py3Dmol
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from concurrent.futures import ProcessPoolExecutor
-from gc_meox_src import is_derivatized, remove_derivatization_groups, add_derivatization_groups
+from gc_meox_tms import is_derivatized, remove_derivatization_groups, add_derivatization_groups
 import multiprocessing
 
 dict_deriv = {

@@ -1,10 +1,11 @@
 import fileinput
 
+from typing import List, Tuple
 from os import PathLike
 from rdkit.Chem import Mol, MolFromSmiles
 
 
-def read_input_txt(infiles: PathLike) -> list[tuple[str, Mol]]:
+def read_input_txt(infiles: PathLike) -> List[Tuple[str, Mol]]:
     """Read input from txt files with SMILES."""
     return [(line.rstrip(), MolFromSmiles(line)) for line in fileinput.input(files=infiles)]
 

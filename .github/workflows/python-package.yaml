@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.8", "3.9", "3.10"]
 
     steps:
@@ -34,3 +34,19 @@ jobs:
       - name: Test with pytest
         run: |
           pytest --cov --cov-report term --cov-report xml --junitxml=xunit-result.xml
+      - name: Run SonarCloud scan
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=max-test
+            -Dsonar.organization=max-test
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.python.version="${{ matrix.python-version }}"
+            -Dsonar.sources=gc_meox_tms/
+            -Dsonar.tests=tests/
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.python.xunit.reportPath=xunit-results.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - python >=3.6
+  - flake8
   - pytest
   - pytest-rerunfailures
   - rdkit

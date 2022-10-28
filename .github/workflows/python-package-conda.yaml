@@ -1,9 +1,6 @@
 name: Python Package using Conda
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: ['push', 'pull_request', 'workflow_dispatch']
 
 jobs:
   build-linux:

@@ -7,5 +7,6 @@ dependencies:
   - flake8
   - mock
   - pytest
+  - pytest-cov
   - pytest-rerunfailures
   - rdkit

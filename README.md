@@ -21,8 +21,13 @@ Known limitation is metoxymation on cycles which should be broken. This is not i
 
 1. From source by cloning the repository and installing the package with `pip` as follows:
 ```shell
-git clone https://github.com/RECETOX/gc_derivatization.git
-python -m pip install -e gc_derivatization/
+$ git clone https://github.com/RECETOX/gc_derivatization.git
+
+# install the package:
+$ python -m pip install gc_derivatization
+
+# if you want to be able to run examples in Jupyter notebook install like this:
+$ python -m pip install gc_derivatization[eda]
 ```
 
 Other installation ways are not implemented yet.

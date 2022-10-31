@@ -3,6 +3,7 @@ import pytest
 
 from gc_meox_tms.__main__ import main
 from mock import ANY, patch
+from random import sample
 
 
 @pytest.fixture(params=[['-f'], ['-t'], ['-f', '-t']])
@@ -53,3 +54,14 @@ def test_keep_flag(mock, tmp_path, keep):
     main(args)
 
     mock.assert_called_with(flat_path, ANY, keep)
+
+
+@pytest.mark.parametrize('num_workers', sample(range(1, 50), 3))
+@patch('gc_meox_tms.__main__.ProcessPoolExecutor')
+def test_ncpu_flag(mock, num_workers):
+    """Test if the main function works with -n flag."""
+    args = ['data/alcohols.txt', '-n', str(num_workers)]
+
+    main(args)
+
+    mock.assert_called_with(max_workers=num_workers)

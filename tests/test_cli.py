@@ -56,12 +56,22 @@ def test_keep_flag(mock, tmp_path, keep):
     mock.assert_called_with(flat_path, ANY, keep)
 
 
-@pytest.mark.parametrize('num_workers', sample(range(1, 50), 3))
+@pytest.mark.parametrize('num_workers', sample(range(1, 10), 3))
 @patch('gc_meox_tms.__main__.ProcessPoolExecutor')
 def test_ncpu_flag(mock, num_workers):
     """Test if the main function works with -n flag."""
     args = ['data/alcohols.txt', '-n', str(num_workers)]
-
     main(args)
 
     mock.assert_called_with(max_workers=num_workers)
+
+
+@pytest.mark.parametrize('repeats', sample(range(1, 50), 3))
+@patch('gc_meox_tms.__main__.ProcessPoolExecutor.map')
+def test_repeats_flag(mock, repeats):
+    """Test if the main function works with -r flag."""
+    args = ['data/alcohols.txt', '-r', str(repeats)]
+    main(args)
+
+    for params in mock.call_args[0][1]:
+        assert params[1] == repeats

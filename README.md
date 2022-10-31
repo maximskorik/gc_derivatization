@@ -26,7 +26,7 @@ $ git clone https://github.com/RECETOX/gc_derivatization.git
 # install the package:
 $ python -m pip install gc_derivatization
 
-# if you want to be able to run examples in Jupyter notebook install like this:
+# if you want to run examples in the Jupyter notebook, install with this command:
 $ python -m pip install gc_derivatization[eda]
 ```
 

@@ -13,7 +13,7 @@ def parse_arguments(argv):
     parser.add_argument('-r', '--repeat', type=int, action='store',
                         help='# of repeated attempts to derivatize (may return different results)', default=42)
     parser.add_argument('-k', '--keep', action='store_true',
-                        help='keep input and stripped derivatization SMILES in output', default=True)
+                        help='keep input and stripped derivatization SMILES in output', default=False)
     parser.add_argument('-f', '--flat', type=str, action='store', help='flat output file, one SMILES per line')
     parser.add_argument('-t', '--tsv', type=str, action='store',
                         help='structured output tsv file (original, stripped derivatization, added derivatizations')
@@ -33,9 +33,10 @@ def main(argv):
 
     if args.flat:
         write_flat(args.flat, data, args.keep)
-
     if args.tsv:
         write_tab_separated(args.tsv, data)
+
+    return 0
 
 
 if __name__ == '__main__':

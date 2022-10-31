@@ -1,9 +1,10 @@
-import pytest
-
-from gc_meox_tms.__main__ import main
-from mock import ANY, patch
 from os.path import exists, join
 from random import sample
+
+import pytest
+from mock import ANY, patch
+
+from gc_meox_tms.__main__ import main
 
 
 @pytest.fixture

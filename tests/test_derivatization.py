@@ -1,8 +1,8 @@
 import pytest
-
-from gc_meox_tms import add_derivatization_groups, is_derivatized, remove_derivatization_groups, process_one_mol
 from rdkit import Chem
 
+from gc_meox_tms import (add_derivatization_groups, is_derivatized,
+                         process_one_mol, remove_derivatization_groups)
 
 FLAKY_RERUNS = 6
 

@@ -1,8 +1,8 @@
-import py3Dmol
+from typing import Optional
 
+import py3Dmol
 from rdkit.Chem import AllChem, Mol, MolToMolBlock
 from rdkit.Chem.Draw.IPythonConsole import ShowMols
-from typing import Optional
 
 
 def draw3d(m: Mol, dimensions: tuple[int, int] = (500, 300), p: Optional[py3Dmol.view] = None):

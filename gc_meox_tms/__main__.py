@@ -1,7 +1,7 @@
 import argparse
 import sys
-
 from concurrent.futures import ProcessPoolExecutor
+
 from .derivatization import process_one_mol
 from .utils import read_input_txt, write_flat, write_tab_separated
 

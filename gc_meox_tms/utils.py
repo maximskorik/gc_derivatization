@@ -1,7 +1,7 @@
 import fileinput
-
-from typing import List, Tuple
 from os import PathLike
+from typing import List, Tuple
+
 from rdkit.Chem import Mol, MolFromSmiles
 
 

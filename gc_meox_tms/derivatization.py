@@ -1,8 +1,9 @@
-from rdkit import Chem
-from rdkit.Chem import AllChem
+import random
 from copy import deepcopy
 from typing import Optional
-import random
+
+from rdkit import Chem
+from rdkit.Chem import AllChem
 
 tms = '[Si]([CH3])([CH3])[CH3]'
 

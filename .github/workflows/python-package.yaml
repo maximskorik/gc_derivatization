@@ -31,7 +31,7 @@ jobs:
         run: |
           pytest --cov --cov-report term --cov-report xml --junitxml=xunit-result.xml
       - name: Run SonarCloud scan
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10' && ${{ secrets.GITHUB_TOKEN }}
         uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >

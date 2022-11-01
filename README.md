@@ -2,8 +2,6 @@
 
 ## Overview
 
----
-
 This package performs in-silico MeOX + TMS derivatization (as described e.g. in https://doi.org/10.1021/acs.analchem.7b01010):
 
 * Metoxylation: ketone R(<font color='pink'>C</font>=O)R' and aldehyde (-H<font color='pink'>C</font>=O) karboxyl groups 
@@ -16,8 +14,6 @@ Known limitation is metoxymation on cycles which should be broken. This is not i
 
 
 ## Installation
-
----
 
 1. From source by cloning the repository and installing the package with `pip` as follows:
 ```shell
@@ -33,8 +29,6 @@ $ python -m pip install gc_derivatization[eda]
 Other installation ways are not implemented yet.
 
 ## Usage
-
----
 
 ### Command-Line Tool
 

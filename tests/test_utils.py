@@ -1,17 +1,10 @@
 from concurrent.futures import ProcessPoolExecutor
-from pathlib import Path
 
 import pytest
 from rdkit.Chem import Mol, MolFromSmiles
 
 from gc_meox_tms import process_one_mol
 from gc_meox_tms.utils import read_input_txt, write_flat, write_tab_separated
-
-
-@pytest.fixture(scope="module")
-def test_dir(request):
-    """Return the directory of the currently running test script."""
-    return Path(request.fspath).parent
 
 
 @pytest.fixture

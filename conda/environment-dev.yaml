@@ -4,9 +4,7 @@ channels:
   - defaults
 dependencies:
   - python >=3.8
-  - flake8
-  - mock
-  - pytest
-  - pytest-cov
-  - pytest-rerunfailures
-  - rdkit
+  - pip
+  - pip:
+    - -r ../requirements.txt
+    - -r ../requirements-dev.txt

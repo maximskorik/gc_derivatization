@@ -1,0 +1,11 @@
+name: gc_derivatization-dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python >=3.8
+  - pip
+  - rdkit
+  - pip:
+    - -r ../requirements.txt
+    - -r ../requirements-dev.txt

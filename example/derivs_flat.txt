@@ -1,8 +1,0 @@
-CC(N)=O
-CC(=O)N([Si](C)(C)C)[Si](C)(C)C
-CCC(=NOC)C
-CCC(C)=O
-CCC(C)=NOC
-CCC=NOC
-CCC=O
-C=NOC

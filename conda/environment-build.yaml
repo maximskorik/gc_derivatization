@@ -1,0 +1,8 @@
+name: gc-meox-tms-build
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - conda-build
+  - conda-verify
+  - python >=3.8

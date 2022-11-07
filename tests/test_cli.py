@@ -1,3 +1,4 @@
+from inspect import signature
 from os.path import exists, join
 from random import sample
 
@@ -80,5 +81,5 @@ def test_repeats_flag(mock, input_data_path, repeats):
     args = [input_data_path, '-r', str(repeats)]
     main(args)
 
-    for params in mock.call_args[0][1]:
-        assert params[1] == repeats
+    called_with_repeats = signature(mock.call_args[0][0]).parameters["repeats"].default
+    assert called_with_repeats == repeats

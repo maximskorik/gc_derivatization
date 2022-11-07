@@ -1,4 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
+from functools import partial
 
 import pytest
 from rdkit.Chem import Mol, MolFromSmiles
@@ -11,10 +12,10 @@ from gc_meox_tms.utils import read_input_txt, write_flat, write_tab_separated
 def data():
     molecules = [(smiles, MolFromSmiles(smiles)) for smiles in [
         "CCC(=NOC)C", "CCC=NOC", "C=NOC", "CC(=O)N([Si](C)(C)C)[Si](C)(C)C"]]
-    num_molecules = list(zip(molecules, [1] * len(molecules)))
 
+    process_one_mol_with_repeats = partial(process_one_mol, repeats=1)
     with ProcessPoolExecutor(max_workers=2) as executor:
-        data = executor.map(process_one_mol, num_molecules)
+        data = executor.map(process_one_mol_with_repeats, molecules)
 
     yield data
 

@@ -1,6 +1,7 @@
 import argparse
 import sys
 from concurrent.futures import ProcessPoolExecutor
+from functools import partial
 
 from .derivatization import process_one_mol
 from .utils import read_input_txt, write_flat, write_tab_separated
@@ -24,12 +25,11 @@ def parse_arguments(argv):
 
 def main(argv):
     args = parse_arguments(argv)
-
     input_molecules = read_input_txt(args.infiles)
-    n_mols = list(zip(input_molecules, [args.repeat] * len(input_molecules)))
 
+    process_one_mol_with_repeats = partial(process_one_mol, repeats=args.repeat)
     with ProcessPoolExecutor(max_workers=args.ncpu) as executor:
-        data = executor.map(process_one_mol, n_mols)
+        data = executor.map(process_one_mol_with_repeats, input_molecules)
 
     if args.flat:
         write_flat(args.flat, data, args.keep)

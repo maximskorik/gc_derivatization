@@ -74,7 +74,7 @@ subs = [(Chem.MolFromSmarts(pat), repls, probs) for pat, repls, probs in _subs]
 repls = [(Chem.MolFromSmarts(pat), Chem.MolFromSmiles(repl)) for pat, repl in _repls]
 
 
-def add_derivatization_groups(mol=None, smiles=None):
+def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
 

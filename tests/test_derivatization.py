@@ -118,7 +118,7 @@ def test_process_one_mol(smiles, expected):
     """Test processing one molecule."""
     mol = (smiles, Chem.MolFromSmiles(smiles))
     n = 40
-    actual = process_one_mol((mol, n))
+    actual = process_one_mol(mol, n)
     actual = {actual[0], actual[1], *actual[2]}
 
     assert actual == expected

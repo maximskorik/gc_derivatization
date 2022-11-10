@@ -1,6 +1,6 @@
 import random
 from copy import deepcopy
-from typing import Optional
+from typing import Optional, Tuple
 
 from rdkit import Chem
 from rdkit.Chem import AllChem
@@ -74,7 +74,7 @@ subs = [(Chem.MolFromSmarts(pat), repls, probs) for pat, repls, probs in _subs]
 repls = [(Chem.MolFromSmarts(pat), Chem.MolFromSmiles(repl)) for pat, repl in _repls]
 
 
-def add_derivatization_groups(mol=None, smiles=None):
+def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
 
@@ -96,10 +96,9 @@ def add_derivatization_groups(mol=None, smiles=None):
     return em
 
 
-def process_one_mol(n_mol):
-    mol, n = n_mol
+def process_one_mol(mol: Tuple[str, Chem.Mol], repeats: int):
     return (
         mol[0],
         Chem.MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),
-        {Chem.MolToSmiles(add_derivatization_groups(mol[1]), kekuleSmiles=True) for _ in range(n)}
+        {Chem.MolToSmiles(add_derivatization_groups(mol[1]), kekuleSmiles=True) for _ in range(repeats)}
     )

@@ -1,4 +1,4 @@
-name: gc_derivatization-dev
+name: gc-meox-tms-dev
 channels:
   - conda-forge
   - defaults

@@ -26,7 +26,7 @@ test:
     - gc_meox_tms
 
 about:
-  home: https://github.com/RECETOX/gc_derivatization
+  home: https://github.com/RECETOX/{{ name }}
   license: MIT
   summary: In-silico MeOX/TMS derivatization of chemicals
   description: In-silico derivatization of compounds to be identified in gas chromatography

@@ -17,13 +17,13 @@ Known limitation is methoximation on cycles which should be broken. This is not 
 
 1. From source by cloning the repository and installing the package with `pip` as follows:
 ```shell
-$ git clone https://github.com/RECETOX/gc_derivatization.git
+$ git clone https://github.com/RECETOX/gc-meox-tms.git
 
 # install the package:
-$ python -m pip install gc_derivatization
+$ python -m pip install gc-meox-tms
 
 # if you want to run examples in the Jupyter notebook, install with this command:
-$ python -m pip install gc_derivatization[eda]
+$ python -m pip install gc-meox-tms[eda]
 ```
 
 Other installation ways are not implemented yet.

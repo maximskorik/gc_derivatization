@@ -55,7 +55,7 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=gc_derivatization
+            -Dsonar.projectKey=gc-meox-tms
             -Dsonar.organization=RECETOX
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.python.version="3.10"

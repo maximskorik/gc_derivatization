@@ -32,14 +32,15 @@ Other installation ways are not implemented yet.
 
 ### Command-Line Tool
 
-`gc-meox-tms` can be used as a command line tool in a Python console/Python scripts. To use the tool via the command line
-you will need one or more `txt` files with chemical compounds represented as SMILES (one SMILES per line). The tool can
-output results in flat `txt` format (one compound per line) or tab separated `tsv` format (all derivatives of a given molecule per line).
+`gc-meox-tms` can be used as a command line tool to produce all MeOX/TMS derivatives of given compounds. To use it via
+the command line you will need one or more `txt` files with chemical compounds represented as SMILES
+(one SMILES per line). The tool can output results in flat `txt` format(one compound per line) or tab separated `tsv`
+format (all derivatives of a given molecule per line).
 ```shell
 $ python -m gc_meox_tms \
 -f <path to write flat txt result> \
 -t <path to write tab separated result> \
-<paths to txt files>
+<paths to input txt files>
 ```
 More parameters can be specified, such as number of cores or repeats. For more information run:
 ```shell

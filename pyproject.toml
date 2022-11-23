@@ -1,6 +1,42 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools>=61.2", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "gc-meox-tms"
+version = "1.0.0"
+authors = [
+    {name = "Ales Krenek", email = "ljocha@ics.muni.cz"},
+    {name = "Maksym Skoryk", email = "maksym.skoryk@recetox.muni.cz"},
+]
+maintainers = [{name = "RECETOX", email = "GalaxyToolsDevelopmentandDeployment@space.muni.cz"}]
+description = "In-silico MeOX/TMS derivatization of chemical compounds"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+urls = {Homepage = "https://github.com/RECETOX/gc-meox-tms"}
+requires-python = ">=3.8"
+dependencies = ["rdkit-pypi"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "mock",
+    "pytest",
+    "pytest-cov",
+    "pytest-rerunfailures",
+]
+eda = [
+    "jupyter",
+    "py3Dmol",
+]
+
+[tool.setuptools]
+packages = ["gc_meox_tms"]
+include-package-data = false

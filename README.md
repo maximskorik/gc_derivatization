@@ -26,7 +26,11 @@ $ python -m pip install gc-meox-tms
 $ python -m pip install gc-meox-tms[eda]
 ```
 
-Other installation ways are not implemented yet.
+2. Install via Conda:
+```shell
+$ conda create --name gc-meox-tms gc-meox-tms
+$ conda activate gc-meox-tms 
+```
 
 ## Usage
 

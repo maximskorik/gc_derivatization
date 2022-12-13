@@ -80,3 +80,44 @@ the function enough times you will get all possible derivatizations. The number 
 is individual for each compound (depends on possible conversion degrees etc.).
 
 See also the Jupyter notebook in `example/` directory for more examples.
+
+## Developer documentation
+
+---
+### Installation
+Create a virtual environment of your choice (e.g., conda or venv).
+The development version can be installed with conda or pip as follows:
+```shell
+# To create a conda env run from the package directory:
+$ conda env create -f conda/environment-dev.yaml
+$ conda activate gc-meox-tms-dev
+
+# Alternatively, install using python venv:
+$ python3 -m venv gc-meox-tms-dev
+$ source gc-meox-tms-dev/bin/activate
+$ pip install -e .[dev]
+```
+
+### Contributing
+Before opening a PR make sure all the tests are passing by running `pytest` from within the package directory:
+```shell
+$ pytest
+```
+It may happen that some tests which are dependent on probabilistic logic may fail. If that occurs,
+try rerunning the tests. Usually one rerun is enough.
+
+We strongly advise you to add new tests for the functionality that you want to contribute. If you want to check whether
+your changes are covered with tests, run `$ pytest --cov` and examine the output to see what parts may need better test coverage.
+
+Run linter, to make sure all is nicely formatted:
+```shell
+$ flake8
+
+# if you use venv, exclude venv directory from linting
+$ flake8 --exclude 'gc-meox-tms-dev'
+```
+
+Lastly make sure the Python imports are in a proper order:
+```shell
+$ isort gc_meox_tms
+```

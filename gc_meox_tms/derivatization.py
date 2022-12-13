@@ -98,7 +98,7 @@ def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[s
     :param mol: RDKit molecule object
     :param smiles: SMILES string
 
-    :return: RDKit molecule object in derivatized form
+    :return: RDKit molecule object in a derivatized form
     """
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)

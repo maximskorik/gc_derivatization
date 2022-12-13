@@ -15,7 +15,15 @@ Known limitation is methoximation on cycles which should be broken. This is not 
 
 ## Installation
 
-1. From source by cloning the repository and installing the package with `pip` as follows:
+There are a few ways to install `gc-meox-tms`:
+
+1. Install in a new `conda` environment (recommended):
+```shell
+$ conda create -n gc-meox-tms -c bioconda gc-meox-tms
+$ conda activate gc-meox-tms
+```
+
+2. From source by cloning the repository and installing the package with `pip` as follows:
 ```shell
 $ git clone https://github.com/RECETOX/gc-meox-tms.git
 

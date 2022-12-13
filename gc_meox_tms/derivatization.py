@@ -35,6 +35,14 @@ def is_derivatized(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None)
 
 
 def remove_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
+    """
+    If a molecule is derivatized, remove derivatization substructures and return the original underivatized molecule.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: RDKit molecule object without derivatization substructures
+    """
     if mol is None:
         em = Chem.MolFromSmiles(smiles)
     else:

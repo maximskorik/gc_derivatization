@@ -41,7 +41,7 @@ def remove_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optiona
     :param mol: RDKit molecule object
     :param smiles: SMILES string
 
-    :return: RDKit molecule object without derivatization substructures
+    :return: RDKit molecule object in underivatized (original) form
     """
     if mol is None:
         em = Chem.MolFromSmiles(smiles)
@@ -91,6 +91,15 @@ repls = [(Chem.MolFromSmarts(pat), Chem.MolFromSmiles(repl)) for pat, repl in _r
 
 
 def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
+    """
+    Add derivatization substructures to a molecule and return its derivatized form. This function is not deterministic
+    and will return a random derivatized form of the molecule. Run multiple times to get all possible derivatized forms.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: RDKit molecule object in derivatized form
+    """
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
 

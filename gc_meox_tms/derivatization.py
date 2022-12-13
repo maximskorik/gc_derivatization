@@ -122,6 +122,14 @@ def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[s
 
 
 def process_one_mol(mol: Tuple[str, Chem.Mol], repeats: int):
+    """
+    Return derivatized and underivatized forms of one molecule. Since underlying function is not deterministic, this
+    function may or may not return all possible derivatized forms of the molecule depending on the number of repeats.
+
+    :param mol: SMILES string or RDKit molecule object
+    :param repeats: number of repeats to simulate molecule derivatization
+    :return: tuple containing input molecule, its underivatized form, and a set of derivatized forms
+    """
     return (
         mol[0],
         Chem.MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),

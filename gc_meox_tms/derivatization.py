@@ -129,7 +129,7 @@ def process_one_mol(mol: Tuple[str, Chem.Mol], repeats: int):
     :param mol: SMILES string or RDKit molecule object
     :param repeats: number of repeats to simulate molecule derivatization
 
-    :return: tuple containing input molecule, its underivatized form, and a set of derivatized forms
+    :return: tuple containing the input molecule, its underivatized form, and a set of derivatized forms
     """
     return (
         mol[0],

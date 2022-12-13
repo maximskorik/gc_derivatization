@@ -6,7 +6,13 @@ from rdkit.Chem import Mol, MolFromSmiles
 
 
 def read_input_txt(infiles: PathLike) -> List[Tuple[str, Mol]]:
-    """Read input from txt files with SMILES."""
+    """
+    Read input from txt files with SMILES.
+
+    :param infiles: Path to input file(s) with SMILES. One SMILES per line.
+
+    :return: List of tuples (molecule string from the input file, RDKit molecule object of that molecule)
+    """
     return [(line.rstrip(), MolFromSmiles(line)) for line in fileinput.input(files=infiles)]
 
 

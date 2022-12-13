@@ -30,6 +30,13 @@ def write_tab_separated(tsv_path: PathLike, data) -> None:
 
 
 def write_flat(txt_path: PathLike, data, keep: bool = False) -> None:
+    """
+    Write output to a txt file with one SMILES per line.
+
+    :param txt_path: Path to output file.
+    :param data: Tuple of (original SMILES, underivatized SMILES, set of derivatized SMILES)
+    :param keep: Whether to write the original and underivatized SMILES to the output.
+    """
     with open(txt_path, "w") as flat:
         if keep:
             for orig, removed, added in data:

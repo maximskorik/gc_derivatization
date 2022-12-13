@@ -17,6 +17,12 @@ def read_input_txt(infiles: PathLike) -> List[Tuple[str, Mol]]:
 
 
 def write_tab_separated(tsv_path: PathLike, data) -> None:
+    """
+    Write output to a tab-separated file.
+
+    :param tsv_path: Path to output file.
+    :param data: Tuple of (original SMILES, underivatized SMILES, set of derivatized SMILES)
+    """
     with open(tsv_path, "w") as tsv:
         tsv.write("orig\tderiv. removed\tderiv. added ...\n")
         for orig, removed, added in data:

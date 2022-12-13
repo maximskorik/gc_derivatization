@@ -88,11 +88,15 @@ See also the Jupyter notebook in `example/` directory for more examples.
 Create a virtual environment of your choice (e.g., conda or venv).
 The development version can be installed with conda or pip as follows:
 ```shell
-# To create a conda env run from the package directory:
+# 1. Fork and clone the repository
+$ git clone https://github.com/<YOUR_GITHUB_USERNAME>/gc-meox-tms.git
+$ cd gc-meox-tms
+
+# 2a. To create a conda env run from the package directory:
 $ conda env create -f conda/environment-dev.yaml
 $ conda activate gc-meox-tms-dev
 
-# Alternatively, install using python venv:
+# 2b. Alternatively, install using python venv:
 $ python3 -m venv gc-meox-tms-dev
 $ source gc-meox-tms-dev/bin/activate
 $ pip install -e .[dev]

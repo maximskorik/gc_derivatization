@@ -18,6 +18,14 @@ co = Chem.MolFromSmiles('C=O')
 
 
 def is_derivatized(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> bool:
+    """
+    Return whether a molecule is derivatized by searching for MeOX and TMS substructures within that molecule.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: True if derivatized, False otherwise
+    """
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
     mol = Chem.AddHs(mol)
@@ -27,6 +35,14 @@ def is_derivatized(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None)
 
 
 def remove_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
+    """
+    If a molecule is derivatized, remove derivatization substructures and return the original underivatized molecule.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: RDKit molecule object in underivatized (original) form
+    """
     if mol is None:
         em = Chem.MolFromSmiles(smiles)
     else:
@@ -75,6 +91,15 @@ repls = [(Chem.MolFromSmarts(pat), Chem.MolFromSmiles(repl)) for pat, repl in _r
 
 
 def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> Chem.Mol:
+    """
+    Add derivatization substructures to a molecule and return its derivatized form. This function is not deterministic
+    and will return a random derivatized form of the molecule. Run multiple times to get all possible derivatized forms.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: RDKit molecule object in a derivatized form
+    """
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
 
@@ -97,6 +122,15 @@ def add_derivatization_groups(mol: Optional[Chem.Mol] = None, smiles: Optional[s
 
 
 def process_one_mol(mol: Tuple[str, Chem.Mol], repeats: int):
+    """
+    Return derivatized and underivatized forms of one molecule. Since underlying function is not deterministic, this
+    function may or may not return all possible derivatized forms of the molecule depending on the number of repeats.
+
+    :param mol: SMILES string or RDKit molecule object
+    :param repeats: number of repeats to simulate molecule derivatization
+
+    :return: tuple containing the input molecule, its underivatized form, and a set of derivatized forms
+    """
     return (
         mol[0],
         Chem.MolToSmiles(remove_derivatization_groups(mol[1]), kekuleSmiles=True),

@@ -18,6 +18,14 @@ co = Chem.MolFromSmiles('C=O')
 
 
 def is_derivatized(mol: Optional[Chem.Mol] = None, smiles: Optional[str] = None) -> bool:
+    """
+    Return whether a molecule is derivatized by searching for MeOX and TMS substructures within that molecule.
+
+    :param mol: RDKit molecule object
+    :param smiles: SMILES string
+
+    :return: True if derivatized, False otherwise
+    """
     if mol is None:
         mol = Chem.MolFromSmiles(smiles)
     mol = Chem.AddHs(mol)

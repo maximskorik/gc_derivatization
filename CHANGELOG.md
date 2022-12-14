@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 * documented functions with docstrings to make use of Python's built-in `help()` function [#23](https://github.com/RECETOX/gc-meox-tms/pull/23)
+* added developer documentation [#23](https://github.com/RECETOX/gc-meox-tms/pull/23)
 * added `Publish to PyPi` GitHub Actions workflow [#24](https://github.com/RECETOX/gc-meox-tms/pull/24)
 
 ## [1.0.0]
